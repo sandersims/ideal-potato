@@ -7,6 +7,7 @@ import MyForm from "./components/MyForm"
 import PropDrilling from "./components/PropDrilling"
 import Context from "./components/Context"
 import Fetching from "./components/Fetching"
+import { AppBar } from "@mui/material"
 
 function App() {
   const [show, setShow] = useState(true)
@@ -14,8 +15,11 @@ function App() {
   const toggleShow = () => setShow(previousShow => !previousShow)
 
   return (
+    <div>
+      <AppBar />
     <div className="Container">
       <h1>Illar Kukeke</h1>
+
       <Fetching />
       <PropDrilling />
       <Context />
@@ -24,6 +28,7 @@ function App() {
       <Show show={show} />
       <Toggle toggleShow={toggleShow} />
     </div>
+  </div>
   )
 }
 

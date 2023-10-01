@@ -1,32 +1,37 @@
-import React from "react"
-import { createContext, useState, useContext } from "react"
+import React, { useEffect } from "react"
+import { useState } from "react"
 
-export const WeatherContext = createContext(null)
+const Fetching = () => {
+  const [data, setData] = useState([])
 
-const Context = () => {
-  const [weather, setWeather] = useState("🌞")
+  const fetchData = async () => {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/posts?_start=1&_end=30"
+    )
+    const data = await response.json()
 
-  const changeWeather = () => setWeather("🌧️")
+    setData(data)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
-    <WeatherContext.Provider value={{ weather, changeWeather }}>
-      <Europe />
-    </WeatherContext.Provider>
+    <div>
+      <h2>Fetching</h2>
+      <ul>
+        {data.map(({ id, title }) => (
+          <li
+            key={id}
+            onClick={() => setData(data.filter(element => element.id !== id))}
+          >
+            {id} {title}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
-const Europe = () => {
-  return <Estonia />
-}
-
-const Estonia = () => {
-  return <Tallinn />
-}
-
-const Tallinn = () => {
-  const { weather, changeWeather } = useContext(WeatherContext)
-
-  return <div onClick={changeWeather}>{weather}</div>
-}
-
-export default Context
+export default Fetching
